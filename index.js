@@ -19,9 +19,9 @@ const users = getRepo().then(users => {
         const name = user.name;
         const language = user.language;
         const description = user.description;
-        const created = user.created_at;
-        const published = user.pushed_at;
-        const updated = user.updated_at;
+        const created = new Date(user.created_at).toLocaleString();
+        const published = new Date(user.pushed_at).toLocaleString();
+        const updated = new Date(user.updated_at).toLocaleString();
 
         const td1 = document.createElement('td');
         td1.innerHTML = name;
@@ -44,6 +44,7 @@ const users = getRepo().then(users => {
 
         fragment.appendChild(tr);
         tableTag.appendChild(fragment);
+        console.log(user);
     }
 
 })
