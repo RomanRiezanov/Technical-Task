@@ -8,6 +8,7 @@ async function getRepo() {
     return users;
 }
 
+let sortedRows;
 
 const fragment = new DocumentFragment();
 
@@ -15,7 +16,6 @@ const users = getRepo().then(users => {
     for (let user of users) {
         const fragment = new DocumentFragment();
         const tr = document.createElement('tr');
-        fragment.appendChild(tr);
         const name = user.name;
         const language = user.language;
         const description = user.description;
@@ -25,24 +25,41 @@ const users = getRepo().then(users => {
 
         const td1 = document.createElement('td');
         td1.innerHTML = name;
-        fragment.appendChild(td1);
+        tr.appendChild(td1);
         const td2 = document.createElement('td');
         td2.innerHTML = language;
-        fragment.appendChild(td2);
+        tr.appendChild(td2);
         const td3 = document.createElement('td');
         td3.innerHTML = description;
-        fragment.appendChild(td3);
+        tr.appendChild(td3);
         const td4 = document.createElement('td');
         td4.innerHTML = created;
-        fragment.appendChild(td4);
+        tr.appendChild(td4);
         const td5 = document.createElement('td');
         td5.innerHTML = published;
-        fragment.appendChild(td5);
+        tr.appendChild(td5);
         const td6 = document.createElement('td');
         td6.innerHTML = updated;
-        fragment.appendChild(td6);
+        tr.appendChild(td6);
 
+        fragment.appendChild(tr);
         tableTag.appendChild(fragment);
     }
+
 })
 
+const sortChange = () => {
+    let sortedRows = Array.from(table.rows);
+
+    if(document.getElementById('title_select').value == "A-Z"){
+        sortedRows = sortedRows
+        .slice(1)
+        .sort((rowA, rowB) => rowA.cells[0].innerHTML.toLowerCase() > rowB.cells[0].innerHTML.toLowerCase() ? 1 : -1);
+  
+      table.tBodies[0].append(...sortedRows)
+    } else {
+        sortedRows = sortedRows.slice(1)
+        .sort((rowA, rowB) => rowA.cells[0].innerHTML.toLowerCase() > rowB.cells[0].innerHTML.toLowerCase() ? -1 : 1);
+        table.tBodies[0].append(...sortedRows);
+    }
+}
