@@ -7,6 +7,7 @@
     <script src="index.js" defer></script>
 </head>
 <body>
+    <div hidden id="spinner"></div>
     <main>
         <header>
             <select name="title" id="title_select" onchange="sortChange()">
@@ -14,7 +15,7 @@
                 <option value="Z-A">Alphabetical (Z-A)</option>
             </select>
 
-            <input placeholder="Search by name..." type="text" id="search">
+            <input placeholder="Search by name..." type="text" id="search" onkeyup="myFunction()">
         </header>
 
         <table id="table">

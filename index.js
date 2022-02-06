@@ -1,19 +1,19 @@
 const GIT_HUB_API_URL = 'https://api.github.com/users/jdsecurity/repos';
 const tableTag = document.getElementById('table');
+const spinner = document.getElementById("spinner");
 
 async function getRepo() {
     const response = await fetch('https://api.github.com/users/jdsecurity/repos');
     const users = response.json();
-
+    
     return users;
 }
 
-let sortedRows;
-
-const fragment = new DocumentFragment();
-
-const users = getRepo().then(users => {
-    for (let user of users) {
+(async() => {
+    spinner.removeAttribute('hidden');
+    const userGit = await getRepo();
+    spinner.setAttribute('hidden', '');
+    for (let user of userGit) {
         const fragment = new DocumentFragment();
         const tr = document.createElement('tr');
         const name = user.name;
@@ -44,10 +44,9 @@ const users = getRepo().then(users => {
 
         fragment.appendChild(tr);
         tableTag.appendChild(fragment);
-        console.log(user);
-    }
+    }   
+})()
 
-})
 
 const sortChange = () => {
     let sortedRows = Array.from(table.rows);
@@ -64,3 +63,23 @@ const sortChange = () => {
         table.tBodies[0].append(...sortedRows);
     }
 }
+
+const myFunction = () => {
+    let input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("search");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("table");
+    tr = table.getElementsByTagName("tr");
+  
+    for (i = 0; i < tr.length; i++) {
+      td = tr[i].getElementsByTagName("td")[0];
+      if (td) {
+        txtValue = td.textContent || td.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          tr[i].style.display = "";
+        } else {
+          tr[i].style.display = "none";
+        }
+      }
+    }
+  }
